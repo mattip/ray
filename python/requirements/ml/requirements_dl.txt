@@ -2,7 +2,7 @@
 # For GPU Docker images, you should install requirements_ml_docker.txt instead.
 
 tensorflow==2.6.0
-tensorflow-probability==0.14.0
+tensorflow-probability==0.14.1
 
 torch==1.9.0;sys_platform=="darwin"
 torchvision==0.10.0;sys_platform=="darwin"
