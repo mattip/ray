@@ -74,15 +74,20 @@ class RuntimeEnvContext:
         # default_worker.py inside the container.
         default_worker_path = self.container.get("worker_path")
         if self.container and default_worker_path:
-            logger.debug(
+            logger.info(
                 f"Changing the default worker path from {passthrough_args[0]} to "
                 f"{default_worker_path}."
             )
             passthrough_args[0] = default_worker_path
 
         if sys.platform == "win32":
+            def quote(s):
+                s = s.replace("&", "%26")
+                return s
+            passthrough_args = [quote(s) for s in passthrough_args]
+            
             cmd = [*self.command_prefix, *executable, *passthrough_args]
-            logger.debug(f"Exec'ing worker with command: {cmd}")
+            logger.info(f"Exec'ing worker with command: {cmd}")
             subprocess.Popen(cmd, shell=True).wait()
         else:
             # We use shlex to do the necessary shell escape
